@@ -45,8 +45,7 @@ comparesymbol, fthreshold ") //判断条件
 如：lib.ExeCmdCallBack(0, "CHECK, GetEarliestEvent, 10, /data/videoEngine/data/Events, setClientRole, 4.0")//10s内，前4s区间内有没有收到角色发生改变的事件
 
 具体例子：
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 import ctypes
 import time
 import os
