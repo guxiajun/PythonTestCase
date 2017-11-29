@@ -1,0 +1,18 @@
+#!/bin/sh
+#提示消息
+echo "start:"
+
+# 定义变量
+src=TestCases
+dst=../TestCases
+pst=.py
+
+# 复制文件到目标文件夹
+if [ -d ${dst} ]
+then
+echo "${dst} existed"
+else
+echo "mkdir ${dst}"
+mkdir ./${dst}
+fi
+cp ./$src/*$pst ./$dst
