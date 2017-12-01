@@ -38,9 +38,9 @@ def run():
     time.sleep(10)
 
     lib.ExeCmdCallBack(0,"setVideoProfileEx,480,360,30,490")
-    lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 20.0")
+    lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 15.0")
     lib.ExeCmdCallBack(0,"setVideoProfileEx,120,120,15,50")
-    i = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 10.0")
+    i = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 5.0")
 
     lib.ExeCmdCallBack(0,"leaveChannel")
     lib.ExeCmdCallBack(1,"leaveChannel")
