@@ -27,8 +27,10 @@ def run():
     lib.ExeCmdCallBack(0,"setupRemoteVideo,2,2,-1")#1显示远端指定的用户，2显示远端模式，-1新建窗口
     lib.ExeCmdCallBack(0, "setVideoProfileEx,640,480,15,500")
     lib.ExeCmdCallBack(0,"joinChannelByKey,nil,Test00001,nil,1")
-    j = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
-    if j == -1:
+    z = lib.ExeCmdCallBack(0, "CHECK, GetSample, 10, /data/videoEngine/data/States/iWidth0, ==, 640")
+    x = lib.ExeCmdCallBack(0, "CHECK, GetSample, 10, /data/videoEngine/data/States/iHeight0, ==, 480")
+    c = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
+    if z == 0 or x == 0 or c == -1:
         return "-1"
 
     lib.ExeCmdCallBack(1,"setChannelProfile,1")# 0通信 1直播
@@ -38,25 +40,31 @@ def run():
     lib.ExeCmdCallBack(1,"setupRemoteVideo,1,2,-1")#1显示远端指定的用户，2显示远端模式，-1新建窗口
     lib.ExeCmdCallBack(1, "setVideoProfileEx,640,480,15,500")
     lib.ExeCmdCallBack(1,"joinChannelByKey,nil,Test00001,nil,2")
-    k = lib.ExeCmdCallBack(1,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
-    if k == -1:
-        return "-1"
     time.sleep(10)
 
     lib.ExeCmdCallBack(0, "setVideoProfileEx,320,180,30,140")
-    q = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,20.0")
-    if q == -1:
+    e = lib.ExeCmdCallBack(0, "CHECK, GetSample, 10, /data/videoEngine/data/States/iWidth0, ==, 320")
+    r = lib.ExeCmdCallBack(0, "CHECK, GetSample, 10, /data/videoEngine/data/States/iHeight0, ==, 180")
+    w = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,4.0")
+    if e == 0 or r == 0 or w == -1:
         return "-1"
     lib.ExeCmdCallBack(0, "setVideoProfileEx,840,480,15,930")
-    i = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
-
-    lib.ExeCmdCallBack(0,"leaveChannel")
-    lib.ExeCmdCallBack(1,"leaveChannel")
-
-    if i==0:
+    i = lib.ExeCmdCallBack(0, "CHECK, GetSample, 10, /data/videoEngine/data/States/iWidth0, ==, 840")
+    j = lib.ExeCmdCallBack(0, "CHECK, GetSample, 10, /data/videoEngine/data/States/iHeight0, ==, 480")
+    q = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
+    lib.ExeCmdCallBack(0, "leaveChannel")
+    lib.ExeCmdCallBack(1, "leaveChannel")
+    if i != 0 or j != 0 or q == 0:
         return "0"
     else:
         return "-1"
+
+
+
+    # if i==0:
+    #     return "0"
+    # else:
+    #     return "-1"
 
 
 
