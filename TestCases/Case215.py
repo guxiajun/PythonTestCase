@@ -27,7 +27,9 @@ def run():
     lib.ExeCmdCallBack(0,"setupRemoteVideo,2,2,-1")#1显示远端指定的用户，2显示远端模式，-1新建窗口
     lib.ExeCmdCallBack(0, "setVideoProfileEx,640,480,15,500")
     lib.ExeCmdCallBack(0,"joinChannelByKey,nil,Test00001,nil,1")
-    lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,13.0")
+    j = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
+    if j == -1:
+        return "-1"
 
     lib.ExeCmdCallBack(1,"setChannelProfile,1")# 0通信 1直播
     lib.ExeCmdCallBack(1,"setClientRole,1,nil")# 1主播，2观众
@@ -36,13 +38,17 @@ def run():
     lib.ExeCmdCallBack(1,"setupRemoteVideo,1,2,-1")#1显示远端指定的用户，2显示远端模式，-1新建窗口
     lib.ExeCmdCallBack(1, "setVideoProfileEx,640,480,15,500")
     lib.ExeCmdCallBack(1,"joinChannelByKey,nil,Test00001,nil,2")
-    lib.ExeCmdCallBack(1,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,13.0")
+    k = lib.ExeCmdCallBack(1,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
+    if k == -1:
+        return "-1"
     time.sleep(10)
 
     lib.ExeCmdCallBack(0, "setVideoProfileEx,320,180,30,140")
-    lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,25.0")
+    q = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,20.0")
+    if q == -1:
+        return "-1"
     lib.ExeCmdCallBack(0, "setVideoProfileEx,840,480,15,930")
-    i = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,13.0")
+    i = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
 
     lib.ExeCmdCallBack(0,"leaveChannel")
     lib.ExeCmdCallBack(1,"leaveChannel")

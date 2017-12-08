@@ -29,7 +29,7 @@ def run():
     lib.ExeCmdCallBack(0,"setupLocalVideo,2,-1")# 2:Fit
     lib.ExeCmdCallBack(0,"setupRemoteVideo,2,2,-1")#1显示远端指定的用户，2显示远端模式，-1新建窗口
     #lib.ExeCmdCallBack(0, "setVideoProfileEx,640,480,15,500")
-    lib.ExeCmdCallBack(0, "setVideoProfile,43,false")
+    lib.ExeCmdCallBack(0, "setVideoProfile,43,false")#43:640*480 30 750
     lib.ExeCmdCallBack(0,"joinChannelByKey,nil,Test00001,nil,1")
     lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
 
@@ -44,30 +44,30 @@ def run():
     lib.ExeCmdCallBack(1,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,10.0")
     time.sleep(10)
 
-
-    chk_list = []
+    result = 0
     for FrameRate in [15, 30, 60]:
-        for BitRate in (50, 4781):
+        for BitRate in (50,950,1850,2750,3650,4500,4781):
             cmd = "setVideoProfileEx, 640, 480, {0}, {1}".format(FrameRate, BitRate)
             print cmd
             lib.ExeCmdCallBack(0, cmd)
             time.sleep(5)
         if FrameRate ==15:
             result = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 10.0")
-            chk_list.append(result)
+            if result == -1:
+                return "-1"
         elif FrameRate ==30:
             result = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 20.0")
-            chk_list.append(result)
+            if result == -1:
+                return "-1"
         else:
-            result = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, <=, 40.0")
-            chk_list.append(result)
-
-    if -1 in chk_list:
-        return -1
-    return 0
+            result = lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 50.0")
+            if result == -1:
+                return "-1"
 
     lib.ExeCmdCallBack(0,"leaveChannel")
     lib.ExeCmdCallBack(1,"leaveChannel")
+
+    return "0"
 
 
 

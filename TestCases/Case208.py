@@ -24,21 +24,21 @@ def run():
     lib.ExeCmdCallBack(0,"enableVideo")
     lib.ExeCmdCallBack(0,"setupLocalVideo,2,-1")
     lib.ExeCmdCallBack(0,"setupRemoteVideo,2,2,-1")
-    lib.ExeCmdCallBack(0,"setVideoProfile,20,true")#20表示:320X240  15  200
-    lib.ExeCmdCallBack(0,"joinChannelVideoByKey,nil,test00001,nil,1")
+    lib.ExeCmdCallBack(0,"setVideoProfile,20,false")#20表示:320X240  15  200
+    lib.ExeCmdCallBack(0,"joinChannelByKey,nil,test00001,nil,1")
+    i = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 2.0")
 
     lib.ExeCmdCallBack(1,"setChannelProfile,1")
     lib.ExeCmdCallBack(1,"setClientRole,1,nil")
     lib.ExeCmdCallBack(1,"enableVideo")
     lib.ExeCmdCallBack(1,"setupLocalVideo,2,-1")
     lib.ExeCmdCallBack(1,"setupRemoteVideo,1,2,-1")
-    lib.ExeCmdCallBack(1,"joinChannelVideoByKey,nil,test00001,nil,2")
-    time.sleep(5)
-    lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSet0, >=, 3.0")
+    lib.ExeCmdCallBack(1,"setVideoProfile,20,false")  # 20表示:320X240  15  200
+    lib.ExeCmdCallBack(1,"joinChannelByKey,nil,test00001,nil,2")
 
-    lib.ExeCmdCallBack(0,"setVideoProfile,-1,false")#离开之前的设置
+    lib.ExeCmdCallBack(0,"setVideoProfile,-1,false")#离开setVideoProfile之前的设置
     lib.ExeCmdCallBack(0,"setVideoProfileEx,640,360,15,400")
-    i=lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSet0, >=, 3.0")
+    i=lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 10.0")
 
     lib.ExeCmdCallBack(0,"leaveChannel")
     lib.ExeCmdCallBack(1,"leaveChannel")
@@ -46,4 +46,4 @@ def run():
     if i ==0:
         return "0"
     else:
-        return "-1"
+       return "-1"
