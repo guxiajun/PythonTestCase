@@ -111,11 +111,11 @@ if(($lenF!=0));then
 		done
 	
 		echo ${failedcase[i]} "device info:">>$retpath/result.log
-
+		#=======device info
 		for((j=0;j<=$termarraylen-1;j++));
 		do
-			if((${arrayF[i]}<${termarray[j]}||(i==$lenF-1)&&(j==$caseinfolen-1)));then
-				if(((i==$lenF-1)&&(j==$caseinfolen-1)));then
+			if(((${arrayF[i]}<${termarray[j]})||((i==$lenF-1)&&(j==$termarraylen-1))));then
+				if(((i==$lenF-1)&&(j==$termarraylen-1)));then
 					j=$[$j+1];
 				fi
 				if((j>=1));then
@@ -171,8 +171,8 @@ if(($lenD!=0));then
 		#=======device info
 		for((j=0;j<=$termarraylen-1;j++));
 		do
-			if((${arrayD[i]}<${termarray[j]}||(i==$lenD-1)&&(j==$caseinfolen-1)));then
-				if(((i==$lenD-1)&&(j==$caseinfolen-1)));then
+			if((${arrayD[i]}<${termarray[j]}||(i==$lenD-1)&&(j==$termarraylen-1)));then
+				if(((i==$lenD-1)&&(j==$termarraylen-1)));then
 					j=$[$j+1];
 				fi
 				if((j>=1));then
