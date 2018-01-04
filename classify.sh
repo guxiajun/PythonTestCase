@@ -1,5 +1,6 @@
 #!/bin/bash
 FILENAME="$1"
+DSTPATH="$2"
 SCRIPT=$(basename $0)
 function usage(){
 echo -e "\nUSAGE: $SCRIPT file \n"
@@ -11,6 +12,10 @@ usage
 fi
 
 retpath=$(dirname $FILENAME)
+DSTPATH=$retpath
+dstpath=$DSTPATH/TestResult
+mkdir $dstpath
+
 bAdd=1;
 #get caseinfo
 caseinfo=($(awk '/Test case is:/ {print NR}' $FILENAME))
@@ -63,8 +68,12 @@ do
 	lenfailed=${#failedcase[@]}	
 	if [[ $casef =~ ^[0-9]*\.?[0-9]$ ]];then
 		failedcase[$lenfailed]=$casef0"("$casef")"
+		mkdir $dstpath/$casef0"("$casef"+Failed)"
+		cp -rf $retpath/$casef0/$casef/* $dstpath/$casef0"("$casef"+Failed)"
 	else
 		failedcase[$lenfailed]=$casef
+		mkdir $dstpath/$casef0"(Failed)"
+		cp -rf $retpath/$casef/* $dstpath/$casef0"(Failed)"
 	fi
 done
 echo ${failedcase[@]}
@@ -80,8 +89,12 @@ do
 	lenpending=${#pendcase[@]}
 	if [[ $cased =~ ^[0-9]*\.?[0-9]$ ]];then
 		pendcase[$lenpending]=$cased0"("$cased")"
+		mkdir $dstpath/$cased0"("$cased"+Pending)"
+		cp -rf $retpath/$cased0/$cased/* $dstpath/$cased0"("$cased"+Pending)"
 	else
 		pendcase[$lenpending]=$cased
+		mkdir $dstpath/$cased0"(Pending)"
+		cp -rf $retpath/$cased/* $dstpath/$cased0"(Pending)"
 	fi
 done
 echo ${pendcase[@]}
@@ -195,3 +208,5 @@ if(($lenD!=0));then
 		echo -e "\n" >>$retpath/result.log
 	done
 fi
+
+mv -f $retpath/result.log $dstpath
