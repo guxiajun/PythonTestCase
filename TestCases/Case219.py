@@ -45,7 +45,7 @@ def run():
     #     return "-1"
 
     k = lib.ExeCmdCallBack(1, "CHECK, GetSample, 10, /data/videoEngine/Renderer_00000001/States/iWidth, ==, 640")
-    q = lib.ExeCmdCallBack(1, "CHECK, GetSample, 10, /data/videoEngine/Renderer_00000002/States/iHeight, ==, 480")
+    q = lib.ExeCmdCallBack(1, "CHECK, GetSample, 10, /data/videoEngine/Renderer_00000001/States/iHeight, ==, 480")
     # if k != 0 or q != 0:
     #     return "0"
     # else:

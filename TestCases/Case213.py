@@ -14,38 +14,40 @@ def needterms():
 def categories():
     return "broadcast;sanity;video"
 def shortDesc():
-    return "极大帧率显示"
+    return "（直播）检测640*480,设置为30帧的极大帧率情况"
 def detailDesc():
-    return "极大帧率显示"
+    return "设备A/B以主播方式进入频道，设备A调用setVideoProfileEx接口，分辨率和码率保持不变改变帧率，查看帧率爬升情况"
 def run():
     ll = ctypes.cdll.LoadLibrary
     lib = ll(path)
-    lib.ExeCmdCallBack(0,"setChannelProfile,1")# 0通信 1直播
-    lib.ExeCmdCallBack(0,"setClientRole,1,nil")# 1主播，2观众
+    lib.ExeCmdCallBack(0,"setChannelProfile,1") # ﻿communication:0, broadcast:1
+    lib.ExeCmdCallBack(0,"setClientRole,1,nil") # ﻿host:1, audience:2
     lib.ExeCmdCallBack(0,"enableVideo")
-    lib.ExeCmdCallBack(0,"setupLocalVideo,2,-1")# 2:Fit
-    lib.ExeCmdCallBack(0,"setupRemoteVideo,2,2,-1")#1显示远端指定的用户，2显示远端模式，-1新建窗口
-    lib.ExeCmdCallBack(0, "setVideoProfileEx,640,360,40,400")
-    lib.ExeCmdCallBack(0,"joinChannelByKey,nil,Test00001,nil,1")
-    lib.ExeCmdCallBack(0,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,30.0")
+    lib.ExeCmdCallBack(0,"setupLocalVideo,2,-1") # Hidden:1, Fit:2
+    lib.ExeCmdCallBack(0,"setupRemoteVideo,2,2,-1") # 显示远端指定的用户／显示远端模式／新建窗口-1
+    lib.ExeCmdCallBack(0, "setVideoProfileEx,640,480,10,1000")
+    lib.ExeCmdCallBack(0,"joinChannelByKey,nil,Test00213,nil,1") # uid:1
 
-    lib.ExeCmdCallBack(1,"setChannelProfile,1")# 0通信 1直播
-    lib.ExeCmdCallBack(1,"setClientRole,1,nil")# 1主播，2观众
+    lib.ExeCmdCallBack(1,"setChannelProfile,1") # ﻿communication:0, broadcast:1
+    lib.ExeCmdCallBack(1,"setClientRole,1,nil") # ﻿host:1, audience:2
     lib.ExeCmdCallBack(1,"enableVideo")
-    lib.ExeCmdCallBack(1,"setupLocalVideo,2,-1")# 2:Fit
-    lib.ExeCmdCallBack(1,"setupRemoteVideo,1,2,-1")#1显示远端指定的用户，2显示远端模式，-1新建窗口
-    lib.ExeCmdCallBack(1, "setVideoProfileEx,640,360,40,400")
-    lib.ExeCmdCallBack(1,"joinChannelByKey,nil,Test00001,nil,2")
-    lib.ExeCmdCallBack(1,"CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,30.0")
+    lib.ExeCmdCallBack(1,"setupLocalVideo,2,-1") # Hidden:1, Fit:2
+    lib.ExeCmdCallBack(1,"setupRemoteVideo,1,2,-1") # 显示远端指定的用户／显示远端模式／新建窗口-1
+    lib.ExeCmdCallBack(1,"joinChannelByKey,nil,Test00213,nil,2") # uid:2
     time.sleep(10)
+    result = lib.ExeCmdCallBack(0, "CHECK, Fps, 10, /data/videoEngine/data/Counters/iFrameSent0, >=, 5.0")
+    if result != 0:
+        return "-1"
 
-    lib.ExeCmdCallBack(0, "setVideoProfileEx,640,360,60,400")
-    i = lib.ExeCmdCallBack(0, "CHECK, CounterGetTotal, 20, /data/videoEngine/data/Counters/iFrameSent0, >=,50.0")
+    #调用setVideoProfileEx接口
+    lib.ExeCmdCallBack(0, "setVideoProfileEx,640,480,30,1000")
+    time.sleep(3)
+    result2 = lib.ExeCmdCallBack(0, "CHECK, Fps, 20, /data/videoEngine/data/Counters/iFrameSent0, >=, 25.0")
 
+    #leaveChannel
     lib.ExeCmdCallBack(0,"leaveChannel")
     lib.ExeCmdCallBack(1,"leaveChannel")
-
-    if i==0:
+    if result2 == 0:
         return "0"
     else:
         return "-1"
